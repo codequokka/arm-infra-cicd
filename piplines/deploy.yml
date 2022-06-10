@@ -1,0 +1,42 @@
+trigger:
+  # branches:
+  #   include:
+  #     - master
+  tags:
+    include:
+      - release/*
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: Common
+  - group: Dev
+
+steps:
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: Resource Group
+    inputs:
+      deploymentScope: Subscription
+      azureResourceManagerConnection: $(armConnectionName)
+      subscriptionId: $(subscriptionId)
+      action: Create Or Update Resource Group
+      location: $(resourceGroupLocation)
+      templateLocation: Linked artifact
+      csmFile: templates/resourceGroup.json
+      csmParametersFile: parameters/resourceGroup.json
+      deploymentMode: Incremental
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: Create Virtual Network
+    inputs:
+      deploymentScope: Resource Group
+      azureResourceManagerConnection: $(armConnectionName)
+      subscriptionId: $(subscriptionId)
+      action: Create Or Update Resource Group
+      resourceGroupName: $(resourceGroupName)
+      location: $(resourceGroupLocation)
+      templateLocation: Linked artifact
+      csmFile: templates/virtualNetwork.json
+      csmParametersFile: parameters/virtualNetwork.json
+      deploymentMode: Incremental

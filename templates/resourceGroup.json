@@ -1,0 +1,37 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "systenName": {
+            "type": "string",
+            "metadata": {
+                "description": "System name"
+            }
+        },
+        "environment": {
+            "type": "string",
+            "allowedValues": [ "Prd", "Stg", "Dev" ],
+            "metadata": {
+                "description": "Environment name"
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Location for deploy"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "name": "[concat(parameters('systenName'), '-', parameters('environment'), '-', 'RG')]",
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2021-04-01",
+            "location": "[parameters('location')]",
+            "properties": {}
+        }
+    ],
+    "outputs": {}
+}

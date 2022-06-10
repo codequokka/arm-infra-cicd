@@ -1,0 +1,38 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "environment": {
+            "type": "string",
+            "allowedValues": [ "Prd", "Stg", "Dev" ],
+            "metadata": {
+                "description": "Environment name"
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for deploy"
+            }
+        },
+        "networkSecurityGroupsParam": {
+            "type": "object",
+            "metadata": {
+                "description": "Network security groups parameters"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "name": "[concat(parameters('networkSecurityGroupsParam').name, '-', parameters('environment'), '-', '001', 'NSG')]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2020-11-01",
+            "location": "[parameters('location')]",
+            "properties": "[parameters('networkSecurityGroupsParam').properties]"
+        }
+    ],
+    "outputs": {}
+}

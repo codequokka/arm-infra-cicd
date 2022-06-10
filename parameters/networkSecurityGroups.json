@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment": {
+      "value": "Dev"
+    },
+    "networkSecurityGroupsParam": {
+      "value": {
+        "name": "ARMInfraCICD",
+        "properties": {
+          "securityRules": [
+            {
+              "name": "AllowSSHInBound",
+              "properties": {
+                "description": "Allow Inbound SSH",
+                "direction": "Inbound",
+                "protocol": "Tcp",
+                "sourceAddressPrefix": "*",
+                "sourcePortRange": "*",
+                "destinationAddressPrefix": "*",
+                "destinationPortRange": "22",
+                "access": "Allow",
+                "priority": 100
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
